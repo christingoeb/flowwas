@@ -10,8 +10,7 @@ function Header() {
           Flowwas
         </Typography>
         <Button color="inherit" component={Link} to="/">Home</Button>
-        <Button color="inherit" component={Link} to="/shop">Shop</Button>
-        <Button color="inherit" component={Link} to="/cart">Cart</Button>
+        <Button color="inherit" component={Link} to="/Cart">Cart</Button>
       </Toolbar>
     </AppBar>
   );

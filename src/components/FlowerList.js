@@ -1,16 +1,16 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import FlowerCard from './FlowerCard';
 
 function FLowerList({ flower }) {
   return (
-    <Grid container spacing={3}>
+    <Box display="flex" flexDirection="column" alignItems="center">
       {flower.map(flower => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={flower.id}>
+        <Box key={flower.id} mb={2} width="100%">
           <FlowerCard flower={flower} />
-        </Grid>
+        </Box>
       ))}
-    </Grid>
+    </Box>
   );
 }
 
