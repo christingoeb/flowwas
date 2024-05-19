@@ -18,7 +18,7 @@ function Home() {
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
-        Home
+        Stell dir deinen eigenen Blumenstrauß zusammen
       </Typography>
       <FLowerList flower={flower} />
     </Container>
