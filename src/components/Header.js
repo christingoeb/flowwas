@@ -1,6 +1,6 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -9,8 +9,12 @@ function Header() {
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Flowwas
         </Typography>
-        <Button color="inherit" component={Link} to="/">Home</Button>
-        <Button color="inherit" component={Link} to="/Cart">Cart</Button>
+        <Button color="inherit" component={Link} to="/">
+          Home
+        </Button>
+        <Button color="inherit" component={Link} to="/profile">
+          Profile
+        </Button>
       </Toolbar>
     </AppBar>
   );
