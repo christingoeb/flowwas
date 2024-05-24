@@ -13,7 +13,7 @@ function Header() {
           Home
         </Button>
         <Button color="inherit" component={Link} to="/profile">
-          Profile
+          Profil
         </Button>
       </Toolbar>
     </AppBar>

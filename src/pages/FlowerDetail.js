@@ -8,8 +8,8 @@ function FlowerDetail() {
   // Fetch the flower details using the flowerId
   const flower = {
     id: flowerId,
-    name: `Flower ${flowerId}`,
-    description: `Description for flower ${flowerId}`,
+    name: `Blume ${flowerId}`,
+    description: `Beschreibung der Blume ${flowerId}`,
     price: 20,
     image: `/path/to/image${flowerId}.jpg`
   };
@@ -23,7 +23,7 @@ function FlowerDetail() {
       <Typography variant="body1" paragraph>
         {flower.description}
       </Typography>
-      <Button variant="contained" color="primary">Add to Cart</Button>
+      <Button variant="contained" color="primary">Zu Blumenstrauß hinzufügen</Button>
     </Container>
   );
 }

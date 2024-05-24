@@ -10,15 +10,15 @@ function Home() {
     const fetchedFlowers = [
       {
         id: 1,
-        name: "Flower 1",
-        description: "Description 1",
+        name: "Blume 1",
+        description: "Beschreibung 1",
         price: 10,
         image: "/path/to/image1.jpg",
       },
       {
         id: 2,
-        name: "Flower 2",
-        description: "Description 2",
+        name: "Blume 2",
+        description: "Beschreibung 2",
         price: 20,
         image: "/path/to/image2.jpg",
       },
