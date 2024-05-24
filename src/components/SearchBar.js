@@ -12,13 +12,13 @@ function SearchBar({ onSearch }) {
     <Box display="flex" alignItems="center" mb={2}>
       <TextField
         variant="outlined"
-        placeholder="Search flowers"
+        placeholder="Nach Blumen suchen"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         sx={{ mr: 2 }}
       />
       <Button variant="contained" color="primary" onClick={handleSearch}>
-        Search
+        Suchen
       </Button>
     </Box>
   );
