@@ -12,7 +12,7 @@ function Profile() {
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
-        Deine Blumensträuße
+        Deine tollen Blumensträuße
       </Typography>
     </Container>
   );
