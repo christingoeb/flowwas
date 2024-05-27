@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -11,6 +11,12 @@ import {
 function FlowerCard({ flower }) {
   const showDetailed = () => {
     window.open("https://www.wikipedia.de", "_blank");
+  };
+
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const handleToggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
   };
 
   return (
@@ -42,9 +48,23 @@ function FlowerCard({ flower }) {
                 {flower.name}
               </Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary">
-              {flower.description}
-            </Typography>
+
+            {flower.description.length > 100 ? (
+              <>
+                <Typography variant="body2" color="text.secondary">
+                  {isDropdownVisible
+                    ? flower.description
+                    : flower.description.slice(0, 100) + "..."}
+                </Typography>
+                <Button onClick={handleToggleDropdown}>
+                  {isDropdownVisible ? "Show Less" : "Show More"}
+                </Button>
+              </>
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                {flower.description}
+              </Typography>
+            )}
           </CardContent>
           <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 1 }}>
             <Button variant="contained" color="primary">

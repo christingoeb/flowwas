@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Typography } from "@mui/material";
-import FLowerList from "../components/FlowerList";
+import FlowerList from "../components/FlowerList";
 
 function Home() {
   const [flower, setFlower] = useState([]);
@@ -10,10 +10,10 @@ function Home() {
     const fetchedFlowers = [
       {
         id: 1,
-        name: "Blume 1",
-        description: "Beschreibung 1",
-        price: 10,
-        image: "/path/to/image1.jpg",
+        name: "Akazie",
+        description:
+          "Die Akazien (Acacieae) sind eine Tribus in der Unterfamilie Mimosengewächse (Mimosoideae) innerhalb der Pflanzenfamilie der Hülsenfrüchtler (Fabaceae). Die etwa 1400 Arten sind von den Subtropen bis Tropen der Neuen und Alten Welt weitverbreitet. Die 950 Arten der Gattung Acacia kommen überwiegend in Australien vor.",
+        image: "../../flower_images/1_Acacieae.png",
       },
       {
         id: 2,
@@ -32,7 +32,7 @@ function Home() {
       <Typography variant="h4" component="h1" gutterBottom>
         Stell dir deinen eigenen Blumenstrauß zusammen
       </Typography>
-      <FLowerList flower={flower} />
+      <FlowerList flower={flower} />
     </Container>
   );
 }

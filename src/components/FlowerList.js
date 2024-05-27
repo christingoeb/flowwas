@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import FlowerCard from "./FlowerCard";
 import SearchBar from "./SearchBar";
 
-function FLowerList({ flower }) {
+function FlowerList({ flower }) {
   const [filteredFlowers, setFilteredFlowers] = useState(flower);
 
   const handleSearch = (query) => {
@@ -32,4 +32,4 @@ function FLowerList({ flower }) {
   );
 }
 
-export default FLowerList;
+export default FlowerList;
