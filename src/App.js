@@ -9,17 +9,18 @@ import FlowerDetail from "./pages/FlowerDetail";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/data")
-      .then((response) => {
-        setData(response.data);
+      .get("http://localhost:3000/allFlowers")
+      .then((res) => {
+        setData(res.data);
+        console.log("Fetched data:", res.data);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
+
   return (
     <Router>
       <Header />
