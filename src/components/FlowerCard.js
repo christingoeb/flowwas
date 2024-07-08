@@ -25,7 +25,7 @@ function FlowerCard({ flower }) {
         <CardMedia
           component="img"
           sx={{ width: 140, height: 140 }}
-          image={flower.image}
+          image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
           alt={flower.name}
         />
         <Box
