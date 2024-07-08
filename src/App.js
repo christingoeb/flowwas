@@ -9,29 +9,33 @@ import FlowerDetail from "./pages/FlowerDetail";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState(null);
+  const [flower, setFlower] = useState(null); // flower type is object
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/allFlowers")
       .then((res) => {
-        setData(res.data);
-        console.log("Fetched data:", res.data);
+        setFlower(res.data);
+        //console.log("Fetched data:", res.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/flower/:flowerId" element={<FlowerDetail />} />
-      </Routes>
-    </Router>
-  );
-  /*es fehlt am ende ein <Footer /> */
+  if (!flower) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home flowerData={flower} />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/flower/:flowerId" element={<FlowerDetail />} />
+        </Routes>
+      </Router>
+    );
+    /*es fehlt am ende ein <Footer /> */
+  }
 }
 
 export default App;

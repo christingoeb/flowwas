@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import FlowerList from "../components/FlowerList";
 
-function Home() {
+function Home({ flowerData }) {
   const [flower, setFlower] = useState([]);
+  console.log(typeof flower);
+  if (!flowerData) {
+    console.log("no flowers");
+  } else {
+    console.log("yes flowers");
+  }
 
   useEffect(() => {
     // Fetch flowers from an API or define them here
@@ -27,14 +33,18 @@ function Home() {
     setFlower(fetchedFlowers);
   }, []);
 
-  return (
-    <Container>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Stell dir deinen eigenen Blumenstrauß zusammen
-      </Typography>
-      <FlowerList flower={flower} />
-    </Container>
-  );
+  if (!flowerData) {
+    return <p>No flower data available</p>;
+  } else {
+    return (
+      <Container>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Stell dir deinen eigenen Blumenstrauß zusammen
+        </Typography>
+        <FlowerList flowerData={flowerData} />
+      </Container>
+    );
+  }
 }
 
 export default Home;
