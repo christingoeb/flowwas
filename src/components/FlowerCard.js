@@ -49,12 +49,12 @@ function FlowerCard({ flower }) {
               </Typography>
             </Box>
 
-            {flower.description.length > 100 ? (
+            {flower.description.length > 300 ? (
               <>
                 <Typography variant="body2" color="text.secondary">
                   {isDropdownVisible
                     ? flower.description
-                    : flower.description.slice(0, 100) + "..."}
+                    : flower.description.slice(0, 300) + "..."}
                 </Typography>
                 <Button onClick={handleToggleDropdown}>
                   {isDropdownVisible ? "Show Less" : "Show More"}
