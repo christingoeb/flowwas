@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import FlowerDetail from "./pages/FlowerDetail";
 import "./App.css";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   const [flower, setFlower] = useState(null); // flower type is object
@@ -30,6 +32,8 @@ function App() {
           <Route path="/" element={<Home flowerData={flower} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/flower/:flowerId" element={<FlowerDetail />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
       </Router>
     );

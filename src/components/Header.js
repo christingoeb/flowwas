@@ -15,6 +15,12 @@ function Header() {
         <Button color="inherit" component={Link} to="/profile">
           Profil
         </Button>
+        <Button color="inherit" component={Link} to="/login">
+          Login
+        </Button>
+        <Button color="inherit" component={Link} to="/register">
+          Registrieren
+        </Button>
       </Toolbar>
     </AppBar>
   );
