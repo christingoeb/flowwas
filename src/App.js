@@ -13,10 +13,9 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/allFlowers")
+      .get("http://localhost:3002/allFlowers")
       .then((res) => {
         setFlower(res.data);
-        //console.log("Fetched data:", res.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
