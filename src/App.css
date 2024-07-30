@@ -1,19 +1,92 @@
-.App {
-  text-align: center;
-  background-color: purple;
+/* App.css */
+
+/* General styles */
+body {
+  background-color: #fff3fe !important;
+  color: #333333;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+header {
+  background-color: #ffe9fd !important;
+  color: rgb(53, 72, 46) !important;
+  padding: 20px;
+  text-align: center;
+}
+.logo {
+  height: 60px; /* Adjust the height as necessary */
+
+}
+
+/* Navigation styles */
+nav {
+  background-color: #98FB98;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #333333;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+/* Main content styles */
+main {
+  padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: rgb(53, 72, 46);
+}
+
+button {
+  background-color: #ffe9fd !important;
+  border: none;
+  color: rgb(53, 72, 46) !important;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+button:hover {
+  background-color: #E6E6FA;
+}
+/* Floating Bouquet Cart styles */
+
+.floating-cart-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #FFB6C1;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.floating-cart-content {
+  width: 300px;
+  padding: 20px;
+  background-color: #FAF9F6;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+/* Footer styles */
+footer {
+  background-color: #98FB98;
+  color: #333333;
+  padding: 10px;
+  text-align: center;
 }

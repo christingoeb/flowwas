@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     const requestBody = {
       username: username,
@@ -17,10 +22,19 @@ function LoginForm() {
     axios
       .post("http://localhost:3002/login", requestBody)
       .then((response) => {
-        setResponse(response.data);
+        setLoading(false);
+        const userName = response.data.username;
+        const userId = 30;
+        // frage: wie komme ich an die userId von der eingeloggten person?
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("userName", userName);
+        navigate(`/profile/${userId}`);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        setLoading(false);
+        setError(
+          error.response ? error.response.data : "An unknown error occurred"
+        );
       });
   };
 
@@ -33,6 +47,7 @@ function LoginForm() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -41,11 +56,14 @@ function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
-      {response && <div>Response: {JSON.stringify(response)}</div>}
+      {error && <div style={{ color: "red" }}>Error: {error}</div>}
     </div>
   );
 }

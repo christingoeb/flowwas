@@ -4,12 +4,6 @@ import FlowerList from "../components/FlowerList";
 
 function Home({ flowerData }) {
   const [flower, setFlower] = useState([]);
-  console.log(typeof flower);
-  if (!flowerData) {
-    console.log("no flowers");
-  } else {
-    console.log("yes flowers");
-  }
 
   useEffect(() => {
     // pre-defined flower data
@@ -31,7 +25,7 @@ function Home({ flowerData }) {
     return (
       <Container>
         <Typography variant="h4" component="h1" gutterBottom>
-          Stell dir deinen eigenen Blumenstrauß zusammen
+          Stell dir deinen ganz eigenen Blumenstrauß zusammen
         </Typography>
         <FlowerList flowerData={flowerData} />
       </Container>

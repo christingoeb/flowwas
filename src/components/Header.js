@@ -1,26 +1,45 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { AppBar, Toolbar, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import logo from "../banner_logo.png";
+import "../App.js";
 
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    // Prüfe, ob der Benutzer eingeloggt ist
+    const userId = localStorage.getItem("userId");
+    console.log(`user id ist die: ${userId}`);
+    setIsLoggedIn(!!userId); // Wenn userId vorhanden, ist der Benutzer eingeloggt
+  }, []);
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
-          Flowwas
-        </Typography>
+        <img src={logo} alt="Flowwas Logo" className="logo" />
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>
-        <Button color="inherit" component={Link} to="/profile">
-          Profil
-        </Button>
-        <Button color="inherit" component={Link} to="/login">
-          Login
-        </Button>
-        <Button color="inherit" component={Link} to="/register">
-          Registrieren
-        </Button>
+
+        {isLoggedIn ? (
+          <>
+            <Button
+              color="inherit"
+              component={Link}
+              to={`/profile/${localStorage.getItem("userId")}`}
+            >
+              Profil
+            </Button>
+            <Button color="inherit" component={Link} to="/logout">
+              Logout
+            </Button>
+          </>
+        ) : (
+          <Button color="inherit" component={Link} to="/login">
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -24,7 +24,7 @@ function FlowerCard({ flower }) {
       <Card>
         <CardMedia
           component="img"
-          sx={{ width: 140, height: 140 }}
+          sx={{ width: 140, height: 140, paddingLeft: 2, paddingTop: 2 }}
           image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
           alt={flower.name}
         />
@@ -57,7 +57,9 @@ function FlowerCard({ flower }) {
                     : flower.description.slice(0, 300) + "..."}
                 </Typography>
                 <Button onClick={handleToggleDropdown}>
-                  {isDropdownVisible ? "Show Less" : "Show More"}
+                  {isDropdownVisible
+                    ? "weniger anzeigen..."
+                    : "weiter lesen..."}
                 </Button>
               </>
             ) : (

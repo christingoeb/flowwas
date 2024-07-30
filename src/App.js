@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import FlowerDetail from "./pages/FlowerDetail";
 import "./App.css";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import { ThemeProvider } from "@emotion/react";
+import theme from "./theme.js";
+import Logout from "./components/Logout.js";
+import { AuthContext } from "./AuthContext.js";
 
 function App() {
   const [flower, setFlower] = useState(null); // flower type is object
@@ -26,18 +29,23 @@ function App() {
     return <div>Loading...</div>;
   } else {
     return (
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home flowerData={flower} />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/flower/:flowerId" element={<FlowerDetail />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-        </Routes>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Header />
+          <div className="body">
+            <Routes>
+              <Route path="/" element={<Home flowerData={flower} />} />
+              <Route path="/profile/:userId" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/flower/:flowerId" element={<FlowerDetail />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/logout" element={<Logout />} />
+            </Routes>
+          </div>
+        </Router>
+      </ThemeProvider>
     );
-    /*es fehlt am ende ein <Footer /> */
   }
 }
 

@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   typography: {
-    fontFamily: '"Helvetica Neue", Arial, sans-serif',
+    fontFamily: ["Helvetica Neue", "Roboto", "sans-serif"].join(","),
     fontWeightBold: 700,
   },
 });
