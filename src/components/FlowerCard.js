@@ -6,7 +6,10 @@ import {
   Typography,
   Button,
   Box,
+  Divider,
+  IconButton
 } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 
 function FlowerCard({ flower }) {
   const showDetailed = () => {
@@ -21,19 +24,19 @@ function FlowerCard({ flower }) {
 
   return (
     <Typography variant="h4" component="h1" gutterBottom>
-      <Card>
+      <Card sx={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
         <CardMedia
           component="img"
-          sx={{ width: 140, height: 140, paddingLeft: 2, paddingTop: 2 }}
+          sx={{ width: '200px', height: '200px' }}
           image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
           alt={flower.name}
         />
+        <Divider orientation="vertical" variant="middle" flexItem sx={{ marginLeft: '1rem' }} />
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             flex: "1",
-            marginBottom: 2,
           }}
         >
           <CardContent>
@@ -59,7 +62,7 @@ function FlowerCard({ flower }) {
                 <Button onClick={handleToggleDropdown}>
                   {isDropdownVisible
                     ? "weniger anzeigen..."
-                    : "weiter lesen..."}
+                    : "weiterlesen..."}
                 </Button>
               </>
             ) : (
@@ -68,12 +71,12 @@ function FlowerCard({ flower }) {
               </Typography>
             )}
           </CardContent>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 1 }}>
-            <Button variant="contained" color="primary">
-              +
-            </Button>
-          </Box>
         </Box>
+        <Divider orientation="vertical" variant="middle" flexItem sx={{ marginRight: '1rem' }} />
+        <IconButton aria-label="add" color="primary">
+          <AddIcon />
+        </IconButton>
+
       </Card>
     </Typography>
   );
