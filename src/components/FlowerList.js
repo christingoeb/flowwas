@@ -29,7 +29,7 @@ function FlowerList({ flowerData }) {
             </Box>
           ))
         ) : (
-          <p>No flowers found.</p> // Message when no flowers are available
+          <p>Keine Blumen gefunden. :c</p> // Message when no flowers are available
         )}
       </Box>
     </Typography>

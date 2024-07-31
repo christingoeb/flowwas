@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import {
   useParams,
   useNavigate,
@@ -13,29 +13,40 @@ function Profile() {
   const location = useLocation();
   const [username, setUsername] = useState(null);
 
+  const storedUsername = localStorage.getItem("userName");
+
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
     const storedUsername = localStorage.getItem("userName");
-
-    if (storedUserId && storedUsername) {
+    if (storedUsername) {
       setUsername(storedUsername);
-
-      if (!id) {
-        navigate(`/profile/${storedUserId}`);
-      }
-    } else {
-      navigate("/login");
     }
   }, [id, navigate]);
 
   if (!username) {
     return <div>Loading...</div>;
   }
+  const getBouquets = () => {
+    try {
+      if (location.state.bouquets === null) {
+        console.log("Bouquets are null");
+      } else {
+        console.log("Bouquets:", location.state.bouquets);
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while accessing location.state.bouquets:",
+        error
+      );
+    }
+  };
 
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
         Hier sind deine erstellten Blumensträuße, {username}!
+        <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
+          bouquets
+        </Button>
       </Typography>
     </Container>
   );

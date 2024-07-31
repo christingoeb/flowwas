@@ -35,7 +35,7 @@ function App() {
           <div className="body">
             <Routes>
               <Route path="/" element={<Home flowerData={flower} />} />
-              <Route path="/profile/:userId" element={<Profile />} />
+              <Route path="/profile/:userName" element={<Profile />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/flower/:flowerId" element={<FlowerDetail />} />
               <Route path="/login" element={<LoginForm />} />

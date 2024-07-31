@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import { api_base_url } from '../settings.json';
+import { api_base_url } from "../settings.json";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -24,41 +24,53 @@ function LoginForm() {
 
     axios
       .post("http://localhost:3002/login", requestBody, {
-        withCredentials: true
+        withCredentials: true,
       })
-      .then((response) => {
-        console.log(response)
+      .then((loginResponse) => {
+        console.log(loginResponse);
         setLoading(false);
-        const userName = response.data.username;
-        const userId = 30;
-        // frage: wie komme ich an die userId von der eingeloggten person?
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("userName", userName);
-        /* hab ich rausgenommen um das mit den bouquets zu testen, kann dann sonst auch wieder rein 
-        navigate(`/profile/${userId}`); */
+
+        const userName = loginResponse.data.username;
+
+        // Bouquets abrufen
+        return getBouquets().then((bouquets) => {
+          //console.log("Bouquets:", bouquets);
+
+          localStorage.setItem("userName", userName);
+          //console.log("username:", userName);
+
+          // Navigiere zur Profilseite und übergebe die Bouquets
+          navigate(`/profile/${userName}`, { state: { bouquets } });
+        });
       })
       .catch((error) => {
         setLoading(false);
         setError(
-          error.response ? error.response.data : "An unknown error occurred"
+          error.response
+            ? error.response.data
+            : "An unknown error, while submitting the button, occurred"
         );
       });
   };
 
   const getBouquets = () => {
-    console.log('bo')
-    axios.get(`${api_base_url}bouquets`, {
-      withCredentials: true,
-    })
+    return axios
+      .get(`${api_base_url}bouquets`, {
+        withCredentials: true,
+      })
       .then((response) => {
-        console.log(response)
+        // Gibt die Bouquets zurück in einem Array
+        return response.data;
       })
       .catch((error) => {
         setError(
-          error.response ? error.response.data : "An unknown error occurred"
+          error.response
+            ? error.response.data
+            : "An unknown error, while getting the bouquets, occurred"
         );
+        throw error;
       });
-  }
+  };
 
   return (
     <div>
@@ -87,8 +99,8 @@ function LoginForm() {
       </form>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
-      <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
-        bouquets
+      <Button aria-label="add" color="primary">
+        Noch keinen Account? Hier registrieren!
       </Button>
     </div>
   );

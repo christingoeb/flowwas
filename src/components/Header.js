@@ -8,10 +8,10 @@ import "../App.js";
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    // Prüfe, ob der Benutzer eingeloggt ist
-    const userId = localStorage.getItem("userId");
-    console.log(`user id ist die: ${userId}`);
-    setIsLoggedIn(!!userId); // Wenn userId vorhanden, ist der Benutzer eingeloggt
+    // Prüfe, ob Nutzer:in eingeloggt ist
+    const userName = localStorage.getItem("userName");
+
+    setIsLoggedIn(!!userName); // Wenn userName vorhanden, ist Nutzer:in eingeloggt
   }, []);
 
   return (
