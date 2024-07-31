@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import {
   useParams,
   useNavigate,
   useLocation,
   useLoaderData,
 } from "react-router-dom";
+import BouquetCard from "../components/BouquetCard";
 
 function Profile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [username, setUsername] = useState(null);
-
-  const storedUsername = localStorage.getItem("userName");
+  const [bouquets, setBouquets] = useState([]);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("userName");
@@ -25,12 +25,16 @@ function Profile() {
   if (!username) {
     return <div>Loading...</div>;
   }
+  //frage: wie kann ich die sofort anzeigen? ;-(
+  // bisher geht es nur, wenn man auf den button bouquets drückt
+
   const getBouquets = () => {
     try {
       if (location.state.bouquets === null) {
         console.log("Bouquets are null");
       } else {
         console.log("Bouquets:", location.state.bouquets);
+        setBouquets(location.state.bouquets);
       }
     } catch (error) {
       console.error(
@@ -47,6 +51,17 @@ function Profile() {
         <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
           bouquets
         </Button>
+        {bouquets.length > 0 ? (
+          bouquets.map((bouquetData) => (
+            <Box key={bouquetData.id} mb={2} width="100%">
+              <BouquetCard bouquets={bouquetData} />
+            </Box>
+          ))
+        ) : (
+          <Typography variant="body1">
+            Keine Blumensträuße gefunden. :c
+          </Typography>
+        )}
       </Typography>
     </Container>
   );

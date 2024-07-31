@@ -28,16 +28,15 @@ function LoginForm() {
       })
       .then((loginResponse) => {
         console.log(loginResponse);
-        setLoading(false);
+        const jsonObject = JSON.parse(loginResponse.config.data);
+        const userName = jsonObject.username;
+        console.log(userName);
 
-        const userName = loginResponse.data.username;
+        setLoading(false);
 
         // Bouquets abrufen
         return getBouquets().then((bouquets) => {
-          //console.log("Bouquets:", bouquets);
-
           localStorage.setItem("userName", userName);
-          //console.log("username:", userName);
 
           // Navigiere zur Profilseite und übergebe die Bouquets
           navigate(`/profile/${userName}`, { state: { bouquets } });
