@@ -1,9 +1,8 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Container, Typography, Box, Button, IconButton } from "@mui/material";
+import { Container, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import BouquetFlowerCard from "../components/BouquetFlowerCard";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function BouquetDetail() {
   const location = useLocation();

@@ -5,7 +5,6 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Button,
   Box,
   Divider,
   IconButton,
@@ -58,8 +57,17 @@ function BouquetFlowerCard({ bouquetid, flower }) {
             </Box>
             {flower.associations.length > 0 ? (
               flower.associations.map((flowerAssociations) => (
-                <Box key={flowerAssociations.id} width="100%">
-                  <Typography variant="body2" color="text.secondary">
+                <Box
+                  key={flowerAssociations.id}
+                  sx={{
+                    m: "1rem",
+                    padding: "4px 8px",
+                    backgroundColor: "#f0f0f0",
+                    borderRadius: "4px",
+                    fontSize: "0.875rem", // smaller font size
+                  }}
+                >
+                  <Typography variant="body2" component="div">
                     {flowerAssociations}
                   </Typography>
                 </Box>

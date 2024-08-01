@@ -8,26 +8,30 @@ import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 
 function Header() {
-  const { username, setUsername } = useContext(AuthContext)
+  const { username, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const logout = () => {
-    axios.post("http://localhost:3002/logout", {
-      withCredentials: true,
-    })
+    axios
+      .post("http://localhost:3002/logout", {
+        withCredentials: true,
+      })
       .then(() => {
-        setUsername("")
+        setUsername("");
         navigate(`/`);
       })
       .catch((error) => {
-        console.error(error)
+        console.error(error);
       });
+  };
+  const goHome = () => {
+    navigate(`/`);
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <img src={logo} alt="Flowwas Logo" className="logo" />
+        <img onClick={goHome} src={logo} alt="Flowwas Logo" className="logo" />
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -9,7 +9,6 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
 
@@ -29,10 +28,20 @@ function BouquetCard({ bouquets }) {
         padding: "1rem",
         marginBottom: "1rem",
       }}
-      onClick={handleClick}
     >
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            padding: "0.5rem",
+          }}
+        >
+          <IconButton aria-label="create" color="primary" onClick={handleClick}>
+            <CreateIcon />
+          </IconButton>
+        </Box>
+        <Typography gutterBottom variant="h2" component="h2">
           {bouquets.name}
         </Typography>
 
@@ -53,12 +62,22 @@ function BouquetCard({ bouquets }) {
           {bouquets.flowers && bouquets.flowers.length > 0 ? (
             bouquets.flowers.map((flower) => (
               <Box key={flower.id} mb={2}>
-                <Typography variant="body1">
-                  <strong>Name:</strong> {flower.name}
+                <Typography variant="h4" component="h4">
+                  {flower.name}
                 </Typography>
-                <Typography variant="body1">
-                  <strong>Color:</strong> {flower.color}
-                </Typography>
+                {flower.associations.map((association, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      padding: "4px 8px",
+                      backgroundColor: "#f0f0f0",
+                      borderRadius: "4px",
+                      fontSize: "0.875rem", // smaller font size
+                    }}
+                  >
+                    <Typography variant="body1">{association}</Typography>
+                  </Box>
+                ))}
               </Box>
             ))
           ) : (
@@ -69,16 +88,6 @@ function BouquetCard({ bouquets }) {
         </Box>
       </CardContent>
       <Divider />
-      <Box
-        sx={{ display: "flex", justifyContent: "flex-end", padding: "0.5rem" }}
-      >
-        <IconButton aria-label="delete" color="primary">
-          <DeleteIcon />
-        </IconButton>
-        <IconButton aria-label="create" color="primary">
-          <CreateIcon />
-        </IconButton>
-      </Box>
     </Card>
   );
 }

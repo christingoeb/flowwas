@@ -58,6 +58,40 @@ function FlowerCard({ flower }) {
               <Typography gutterBottom variant="h5" component="div">
                 {flower.name}
               </Typography>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{ fontStyle: "italic" }}
+              >
+                {flower.latin_name}
+              </Typography>
+            </Box>
+            <Divider sx={{ mx: "1rem", mb: "1rem" }} />
+            <Box sx={{ mb: "1rem" }}>
+              {flower.associations.length > 0 ? (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  {flower.associations.map((association, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        padding: "4px 8px",
+                        backgroundColor: "#f0f0f0",
+                        borderRadius: "4px",
+                        fontSize: "0.875rem", // smaller font size
+                      }}
+                    >
+                      <Typography variant="body2" component="div">
+                        {association}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              ) : (
+                <Typography gutterBottom variant="h4" component="div">
+                  keine Assoziation
+                </Typography>
+              )}
             </Box>
 
             {flower.description.length > 300 ? (

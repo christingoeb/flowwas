@@ -1,17 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Typography, CircularProgress, Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Button, TextField, Grid, Container } from "@mui/material";
+import {
+  Typography,
+  CircularProgress,
+  Box,
+  OutlinedInput,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Button,
+  TextField,
+  Grid,
+  Container,
+} from "@mui/material";
 import { BouquetContext } from "../contexts/CreateBouquetContext";
 import FlowerList from "../components/FlowerList";
 import BouquetBasket from "../components/BouquetBasket";
 import axios from "axios";
-import { api_base_url } from '../settings.json';
+import { api_base_url } from "../settings.json";
 
 function Home({ flowerData }) {
   const [flower, setFlower] = useState([]);
   const [loading, setLoading] = useState([]);
   const [selectedColors, setColors] = useState([]);
   const [searchTerms, setSearchTerms] = useState("");
-  const { flowers } = useContext(BouquetContext)
+  const { flowers } = useContext(BouquetContext);
   const names = [
     "pink",
     "red",
@@ -20,7 +33,7 @@ function Home({ flowerData }) {
     "purple",
     "white",
     "blue",
-    "orange"
+    "orange",
   ];
 
   useEffect(() => {
@@ -28,22 +41,25 @@ function Home({ flowerData }) {
   }, []);
 
   function getFilteredFlowers(color, searchTerm) {
-    setLoading(true)
-    axios.get(`${api_base_url}flowers`, {
-      params: {
-        color,
-        searchTerm
-      },
-      paramsSerializer: {
-        indexes: null,
-      }
-    }).then(response => {
-      setFlower(response.data);
-      setLoading(false)
-    }).catch(e => {
-      console.error(e)
-      setLoading(false)
-    })
+    setLoading(true);
+    axios
+      .get(`${api_base_url}flowers`, {
+        params: {
+          color,
+          searchTerm,
+        },
+        paramsSerializer: {
+          indexes: null,
+        },
+      })
+      .then((response) => {
+        setFlower(response.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
   }
 
   const ITEM_HEIGHT = 48;
@@ -57,28 +73,47 @@ function Home({ flowerData }) {
     },
   };
 
-
   const handleChange = (event) => {
-    const { target: { value } } = event;
+    const {
+      target: { value },
+    } = event;
     setColors(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === "string" ? value.split(",") : value
     );
   };
 
   return (
-    <Grid container spacing={2} >
+    <Grid container spacing={2}>
       <Container sx={{ p: "2rem" }}>
-        <Typography variant="h4" component="h1" gutterBottom sx={{ display: 'flex', alignItems: 'center', justifyContent: "center" }}>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           Stell dir deinen ganz eigenen Blumenstrauß zusammen
         </Typography>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: "center", "marginBottom": "1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "1rem",
+          }}
+        >
           <TextField
             label="Stichworte"
             variant="outlined"
             placeholder="Nach Blumen suchen"
             value={searchTerms}
-            onChange={(e) => { setSearchTerms(e.target.value) }}
+            onChange={(e) => {
+              setSearchTerms(e.target.value);
+            }}
             sx={{ mr: 2, width: 450 }}
           />
           <FormControl sx={{ mr: 2, width: 200 }}>
@@ -90,41 +125,73 @@ function Home({ flowerData }) {
               autoWidth
               value={selectedColors}
               onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Farbfilter" />}
+              input={
+                <OutlinedInput id="select-multiple-chip" label="Farbfilter" />
+              }
               renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                   {selected.map((value) => (
-                    <div key={value} style={{ borderRadius: "15px", background: "rgba(0, 0, 0, 0.08)", padding: "0.5rem", display: 'flex', alignItems: 'center' }}>
-                      <div style={{ background: value, width: 15, height: 15, borderRadius: "50%", marginRight: "0.5rem", border: "1px black solid" }}></div>
+                    <div
+                      key={value}
+                      style={{
+                        borderRadius: "15px",
+                        background: "rgba(0, 0, 0, 0.08)",
+                        padding: "0.5rem",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          background: value,
+                          width: 15,
+                          height: 15,
+                          borderRadius: "50%",
+                          marginRight: "0.5rem",
+                          border: "1px black solid",
+                        }}
+                      ></div>
                       <div>{value}</div>
                     </div>
-
                   ))}
                 </Box>
               )}
               MenuProps={MenuProps}
             >
               {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                >
-                  <div style={{ background: name, width: 30, height: 30, borderRadius: "50%", marginRight: "1rem", border: "1px black solid" }}></div>
+                <MenuItem key={name} value={name}>
+                  <div
+                    style={{
+                      background: name,
+                      width: 30,
+                      height: 30,
+                      borderRadius: "50%",
+                      marginRight: "1rem",
+                      border: "1px black solid",
+                    }}
+                  ></div>
                   <div>{name}</div>
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <Button variant="contained" onClick={() => getFilteredFlowers(selectedColors, searchTerms.split(" "))}>Filter anwenden</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              getFilteredFlowers(selectedColors, searchTerms.split(" "))
+            }
+          >
+            Filter anwenden
+          </Button>
         </div>
-        {(!flower && !loading) ?
+        {!flower && !loading ? (
           <p>Keine Blumen gefunden :c</p>
-          :
+        ) : (
           <>
             {loading && <CircularProgress />}
             <FlowerList flowerData={flower} />
           </>
-        }
+        )}
       </Container>
       <BouquetBasket />
     </Grid>
