@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import {
   useLocation,
@@ -11,12 +11,6 @@ function Profile() {
   const location = useLocation();
   const [bouquets, setBouquets] = useState([]);
   const { username } = useContext(AuthContext)
-
-  if (!username) {
-    return <div>Nicht angemeldet. Melde dich bitte an c:</div>;
-  }
-  //frage: wie kann ich die sofort anzeigen? ;-(
-  // bisher geht es nur, wenn man auf den button bouquets drückt
 
   const getBouquets = () => {
     try {
@@ -33,14 +27,23 @@ function Profile() {
       );
     }
   };
+  useEffect(() => {
+    getBouquets(); // default gets all flowers with no set filter
+  }, []);
+
+  if (!username) {
+    return <div>Nicht angemeldet. Melde dich bitte an c:</div>;
+  }
+    //frage: wie kann ich die sofort anzeigen? ;-(
+  // bisher geht es nur, wenn man auf den button bouquets drückt
 
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
         Hier sind deine erstellten Blumensträuße, {username}!
-        <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
+        {/* <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
           bouquets
-        </Button>
+        </Button> */}
         {bouquets.length > 0 ? (
           bouquets.map((bouquetData) => (
             <Box key={bouquetData.id} mb={2} width="100%">

@@ -10,7 +10,6 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme.js";
-import Logout from "./components/Logout.js";
 import { BouquetProvider } from './contexts/CreateBouquetContext.js';
 import { AuthProvider } from "./contexts/AuthContext.js";
 
@@ -43,7 +42,6 @@ function App() {
                   <Route path="/flower/:flowerId" element={<FlowerDetail />} />
                   <Route path="/login" element={<LoginForm />} />
                   <Route path="/register" element={<RegisterForm />} />
-                  <Route path="/logout" element={<Logout />} />
                 </Routes>
               </div>
             </Router>
