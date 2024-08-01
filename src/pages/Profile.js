@@ -14,20 +14,6 @@ function Profile() {
   const location = useLocation();
   const [username, setUsername] = useState(null);
   const [bouquets, setBouquets] = useState([]);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("userName");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, [id, navigate]);
-
-  if (!username) {
-    return <div>Loading...</div>;
-  }
-  //frage: wie kann ich die sofort anzeigen? ;-(
-  // bisher geht es nur, wenn man auf den button bouquets drückt
-
   const getBouquets = () => {
     try {
       if (location.state.bouquets === null) {
@@ -43,14 +29,27 @@ function Profile() {
       );
     }
   };
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("userName");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, [id, navigate]);
+  useEffect(() => {
+    getBouquets(); // default gets all flowers with no set filter
+  }, []);
+
+  if (!username) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
         Hier sind deine erstellten Blumensträuße, {username}!
-        <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
+        {/* <Button aria-label="add" color="primary" onClick={() => getBouquets()}>
           bouquets
-        </Button>
+        </Button> */}
         {bouquets.length > 0 ? (
           bouquets.map((bouquetData) => (
             <Box key={bouquetData.id} mb={2} width="100%">
