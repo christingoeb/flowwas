@@ -11,9 +11,8 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme.js";
-import Logout from "./components/Logout.js";
 import { BouquetProvider } from "./contexts/CreateBouquetContext.js";
-import { AuthContext } from "./AuthContext.js";
+import { AuthProvider } from "./contexts/AuthContext.js";
 
 function App() {
   const [flower, setFlower] = useState(null); // flower type is object
@@ -40,7 +39,6 @@ function App() {
                 <Route path="/" element={<Home flowerData={flower} />} />
                 <Route path="/profile/:userName" element={<Profile />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/bouquet/:id" element={<BouquetDetail />} />
                 <Route path="/flower/:flowerId" element={<FlowerDetail />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />

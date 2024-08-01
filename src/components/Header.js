@@ -1,18 +1,28 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { AppBar, Toolbar, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../banner_logo.png";
 import "../App.js";
+import { AuthContext } from "../contexts/AuthContext";
+import axios from "axios";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    // Prüfe, ob Nutzer:in eingeloggt ist
-    const userName = localStorage.getItem("userName");
+  const { username, setUsername } = useContext(AuthContext)
+  const navigate = useNavigate();
 
-    setIsLoggedIn(!!userName); // Wenn userName vorhanden, ist Nutzer:in eingeloggt
-  }, []);
+  const logout = () => {
+    axios.post("http://localhost:3002/logout", {
+      withCredentials: true,
+    })
+      .then(() => {
+        setUsername("")
+        navigate(`/`);
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+  };
 
   return (
     <AppBar position="static">
@@ -22,7 +32,7 @@ function Header() {
           Home
         </Button>
 
-        {isLoggedIn ? (
+        {!!username ? (
           <>
             <Button
               color="inherit"
@@ -31,7 +41,7 @@ function Header() {
             >
               Profil
             </Button>
-            <Button color="inherit" component={Link} to="/logout">
+            <Button color="inherit" component={Link} onClick={logout}>
               Logout
             </Button>
           </>

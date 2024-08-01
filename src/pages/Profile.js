@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import {
-  useParams,
-  useNavigate,
   useLocation,
-  useLoaderData,
 } from "react-router-dom";
 import BouquetCard from "../components/BouquetCard";
+import { AuthContext } from "../contexts/AuthContext";
+
 
 function Profile() {
-  const { id } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
-  const [username, setUsername] = useState(null);
   const [bouquets, setBouquets] = useState([]);
+  const { username } = useContext(AuthContext)
+
   const getBouquets = () => {
     try {
       if (location.state.bouquets === null) {
@@ -30,18 +28,14 @@ function Profile() {
     }
   };
   useEffect(() => {
-    const storedUsername = localStorage.getItem("userName");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, [id, navigate]);
-  useEffect(() => {
     getBouquets(); // default gets all flowers with no set filter
   }, []);
 
   if (!username) {
-    return <div>Loading...</div>;
+    return <div>Nicht angemeldet. Melde dich bitte an c:</div>;
   }
+    //frage: wie kann ich die sofort anzeigen? ;-(
+  // bisher geht es nur, wenn man auf den button bouquets drückt
 
   return (
     <Container>
