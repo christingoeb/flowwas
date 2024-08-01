@@ -5,13 +5,14 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import FlowerDetail from "./pages/FlowerDetail";
+import BouquetDetail from "./pages/BouquetDetail.js";
 import "./App.css";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme.js";
 import Logout from "./components/Logout.js";
-import { BouquetProvider } from './contexts/CreateBouquetContext.js';
+import { BouquetProvider } from "./contexts/CreateBouquetContext.js";
 import { AuthContext } from "./AuthContext.js";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/" element={<Home flowerData={flower} />} />
                 <Route path="/profile/:userName" element={<Profile />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/bouquet/:id" element={<BouquetDetail />} />
                 <Route path="/flower/:flowerId" element={<FlowerDetail />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />

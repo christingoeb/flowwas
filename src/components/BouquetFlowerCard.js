@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { BouquetContext } from "../contexts/CreateBouquetContext";
+import React from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Card,
   CardContent,
@@ -10,19 +10,16 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 
-function FlowerCard({ flower }) {
+function BouquetFlowerCard({ bouquetid, flower }) {
   const showDetailed = () => {
     //window.open("https://www.wikipedia.de", "_blank");
   };
 
-  const { addItem } = useContext(BouquetContext);
-
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setIsDropdownVisible(!isDropdownVisible);
+  // Remove Flower Funktionalität
+  const removeFlower = () => {
+    // Frage: ID soll aus der Liste des Bouquets gelöscht werden
+    console.log(flower.id);
   };
 
   return (
@@ -30,7 +27,7 @@ function FlowerCard({ flower }) {
       <Card sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
         <CardMedia
           component="img"
-          sx={{ width: "200px", height: "200px" }}
+          sx={{ width: "250px", height: "250px" }}
           image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
           alt={flower.name}
         />
@@ -59,22 +56,16 @@ function FlowerCard({ flower }) {
                 {flower.name}
               </Typography>
             </Box>
-
-            {flower.description.length > 300 ? (
-              <>
-                <Typography variant="body2" color="text.secondary">
-                  {isDropdownVisible
-                    ? flower.description
-                    : flower.description.slice(0, 300) + "..."}
-                </Typography>
-                <Button onClick={handleToggleDropdown}>
-                  {isDropdownVisible ? "weniger anzeigen..." : "weiterlesen..."}
-                </Button>
-              </>
+            {flower.associations.length > 0 ? (
+              flower.associations.map((flowerAssociations) => (
+                <Box key={flowerAssociations.id} width="100%">
+                  <Typography variant="body2" color="text.secondary">
+                    {flowerAssociations}
+                  </Typography>
+                </Box>
+              ))
             ) : (
-              <Typography variant="body2" color="text.secondary">
-                {flower.description}
-              </Typography>
+              <Typography variant="body2" color="text.secondary"></Typography>
             )}
           </CardContent>
         </Box>
@@ -85,15 +76,15 @@ function FlowerCard({ flower }) {
           sx={{ marginRight: "1rem" }}
         />
         <IconButton
-          aria-label="add"
+          aria-label="delete"
           color="primary"
-          onClick={() => addItem(flower)}
+          onClick={() => removeFlower(bouquetid)}
         >
-          <AddIcon />
+          <DeleteIcon />
         </IconButton>
       </Card>
     </Typography>
   );
 }
 
-export default FlowerCard;
+export default BouquetFlowerCard;

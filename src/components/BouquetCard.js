@@ -11,8 +11,14 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
+import { useNavigate } from "react-router-dom";
 
 function BouquetCard({ bouquets }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/bouquet/${bouquets.id}`, { state: { bouquet: bouquets } });
+  };
   return (
     <Card
       sx={{
@@ -21,6 +27,7 @@ function BouquetCard({ bouquets }) {
         padding: "1rem",
         marginBottom: "1rem",
       }}
+      onClick={handleClick}
     >
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
