@@ -50,28 +50,6 @@ function LoginForm() {
       });
   };
 
-  const logout = () => {
-    setLoading(true);
-
-    axios.post("http://localhost:3002/logout", {
-      withCredentials: true,
-    })
-      .then(() => {
-        setLoading(false);
-
-        setUsername("")
-        navigate(`/`);
-      })
-      .catch((error) => {
-        setLoading(false);
-        setError(
-          error.response
-            ? error.response.data
-            : "An unknown error, while submitting the button, occurred"
-        );
-      });
-  };
-
   const getBouquets = () => {
     return axios
       .get(`${api_base_url}bouquets`, {
@@ -118,7 +96,7 @@ function LoginForm() {
       </form>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
-      <Button aria-label="add" color="primary" onClick={logout}>
+      <Button aria-label="add" color="primary">
         Noch keinen Account? Hier registrieren!
       </Button>
     </div>
