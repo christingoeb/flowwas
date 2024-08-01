@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { BouquetContext } from '../contexts/CreateBouquetContext';
 import {
   Card,
   CardContent,
@@ -15,6 +16,8 @@ function FlowerCard({ flower }) {
   const showDetailed = () => {
     window.open("https://www.wikipedia.de", "_blank");
   };
+
+  const { addItem } = useContext(BouquetContext);
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -73,7 +76,7 @@ function FlowerCard({ flower }) {
           </CardContent>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem sx={{ marginRight: '1rem' }} />
-        <IconButton aria-label="add" color="primary">
+        <IconButton aria-label="add" color="primary" onClick={() => addItem(flower)}>
           <AddIcon />
         </IconButton>
 
