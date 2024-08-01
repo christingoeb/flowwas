@@ -17,7 +17,9 @@ function BouquetCard({ bouquets }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/bouquet/${bouquets.id}`, { state: { bouquet: bouquets } });
+    navigate(`/bouquet/${bouquets.bouquetId}`, {
+      state: { bouquet: bouquets },
+    });
   };
   return (
     <Card

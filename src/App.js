@@ -32,20 +32,25 @@ function App() {
     return (
       <ThemeProvider theme={theme}>
         <BouquetProvider>
-          <Router>
-            <Header />
-            <div className="body">
-              <Routes>
-                <Route path="/" element={<Home flowerData={flower} />} />
-                <Route path="/profile/:userName" element={<Profile />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/flower/:flowerId" element={<FlowerDetail />} />
-                <Route path="/login" element={<LoginForm />} />
-                <Route path="/register" element={<RegisterForm />} />
-                <Route path="/logout" element={<Logout />} />
-              </Routes>
-            </div>
-          </Router>
+          <AuthProvider>
+            <Router>
+              <Header />
+              <div className="body">
+                <Routes>
+                  <Route path="/" element={<Home flowerData={flower} />} />
+                  <Route path="/profile/:userName" element={<Profile />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route
+                    path="/bouquet/:bouquetId"
+                    element={<BouquetDetail />}
+                  />
+                  <Route path="/flower/:flowerId" element={<FlowerDetail />} />
+                  <Route path="/login" element={<LoginForm />} />
+                  <Route path="/register" element={<RegisterForm />} />
+                </Routes>
+              </div>
+            </Router>
+          </AuthProvider>
         </BouquetProvider>
       </ThemeProvider>
     );
