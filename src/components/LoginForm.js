@@ -1,12 +1,21 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+
+import {
+  Card,
+  CardContent,
+  Button,
+  TextField,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import { api_base_url } from "../settings.json";
 import { AuthContext } from "../contexts/AuthContext";
 
 function LoginForm() {
-  const { setUsername } = useContext(AuthContext)
+  const { setUsername } = useContext(AuthContext);
 
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +43,7 @@ function LoginForm() {
 
         // Bouquets abrufen
         return getBouquets().then((bouquets) => {
-          setUsername(username)
+          setUsername(username);
 
           // Navigiere zur Profilseite und übergebe die Bouquets
           navigate(`/profile/${username}`, { state: { bouquets } });
@@ -70,36 +79,65 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <form onSubmit={login}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUser(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
-      {error && <div style={{ color: "red" }}>Error: {error}</div>}
-
-      <Button aria-label="add" color="primary">
-        Noch keinen Account? Hier registrieren!
-      </Button>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Card sx={{ width: 400, padding: 3 }}>
+        <CardContent>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Login
+          </Typography>
+          <form onSubmit={login}>
+            <Box mb={2}>
+              <TextField
+                label="Username"
+                type="text"
+                value={username}
+                onChange={(e) => setUser(e.target.value)}
+                fullWidth
+                required
+              />
+            </Box>
+            <Box mb={2}>
+              <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                required
+              />
+            </Box>
+            <Box mb={2}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} /> : "Login"}
+              </Button>
+            </Box>
+          </form>
+          {error && (
+            <Typography variant="body1" color="error">
+              {error}
+            </Typography>
+          )}
+          <Box mt={2}>
+            <Button variant="text" color="primary">
+              Noch keinen Account? Hier registrieren!
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 
