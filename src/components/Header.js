@@ -1,18 +1,12 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { AppBar, Toolbar, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import logo from "../banner_logo.png";
 import "../App.js";
+import { AuthContext } from "../contexts/AuthContext.js";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    // Prüfe, ob Nutzer:in eingeloggt ist
-    const userName = localStorage.getItem("userName");
-
-    setIsLoggedIn(!!userName); // Wenn userName vorhanden, ist Nutzer:in eingeloggt
-  }, []);
+  const { username } = useContext(AuthContext)
 
   return (
     <AppBar position="static">
@@ -22,7 +16,7 @@ function Header() {
           Home
         </Button>
 
-        {isLoggedIn ? (
+        {!!username ? (
           <>
             <Button
               color="inherit"

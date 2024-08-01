@@ -1,4 +1,3 @@
-// SelectedItemsContext.js
 import React, { createContext, useState } from 'react';
 
 export const BouquetContext = createContext();

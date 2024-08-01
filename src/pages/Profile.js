@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import {
-  useParams,
-  useNavigate,
   useLocation,
-  useLoaderData,
 } from "react-router-dom";
 import BouquetCard from "../components/BouquetCard";
+import { AuthContext } from "../contexts/AuthContext";
+
 
 function Profile() {
-  const { id } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
-  const [username, setUsername] = useState(null);
   const [bouquets, setBouquets] = useState([]);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("userName");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, [id, navigate]);
+  const { username } = useContext(AuthContext)
 
   if (!username) {
-    return <div>Loading...</div>;
+    return <div>Nicht angemeldet. Melde dich bitte an c:</div>;
   }
   //frage: wie kann ich die sofort anzeigen? ;-(
   // bisher geht es nur, wenn man auf den button bouquets drückt
