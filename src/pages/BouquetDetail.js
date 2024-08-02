@@ -57,7 +57,7 @@ function BouquetDetail() {
           }}
         >
           <Breadcrumbs aria-label="breadcrumb" sx={{ background: "#fff3fe" }}>
-            <Link underline="hover" color="inherit" href="/profile">
+            <Link underline="hover" color="inherit" onClick={() => navigate("/profile")}>
               <Typography variant="h6" component="h1">
                 Meine Bouquets
               </Typography>

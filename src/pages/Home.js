@@ -175,6 +175,7 @@ function Home() {
           </FormControl>
           <Button
             variant="contained"
+            sx={{ background: "#ffb6c1 !important" }}
             onClick={() =>
               getFilteredFlowers(selectedColors, searchTerms.split(" "))
             }

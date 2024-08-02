@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid, Stack, Typography, CircularProgress } from "@mui/material";
 import BouquetCard from "../components/BouquetCard";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -9,24 +9,28 @@ import { api_base_url } from "../settings.json";
 function Profile() {
   const [bouquets, setBouquets] = useState([]);
   const { username } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`${api_base_url}bouquets`,
         { withCredentials: true })
       .then((response) => {
         setBouquets(response.data);
+        setLoading(false);
       })
       .catch((e) => {
         console.error(e);
+        setLoading(false);
       });
   }, []);
 
   if (!username) navigate("/login")
 
   return (
-    <Grid container spacing={2} sx={{ p: "2rem", height: "90vH", width: "99vW", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <Grid container spacing={2} sx={{ p: "2rem", minHeight: "90vH", width: "99vW", display: "flex", justifyContent: "center", alignItems: "center" }}>
       {bouquets.length > 0 ? (
         <Stack
           direction="column"
@@ -43,7 +47,7 @@ function Profile() {
             ))}
           </Grid>
         </Stack>
-      ) : (
+      ) : !loading ? (
         <Stack
           direction="column"
           justifyContent="center"
@@ -57,7 +61,14 @@ function Profile() {
             Erstelle jetzt deinen ersten Blumenstrauß!
           </Button>
         </Stack>
-      )}
+      ) : <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <CircularProgress size={50} />
+      </Stack>}
     </Grid>
   );
 }
