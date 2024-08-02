@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Card,
+  CardContent,
+  Button,
+  TextField,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import { api_base_url } from "../settings.json";
+import { AuthContext } from "../contexts/AuthContext";
 
 function RegisterForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [response, setResponse] = useState(null);
+  const { setUsername } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const [username, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordValidation, setPasswordValidation] = useState("");
+
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const register = (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     const requestBody = {
       username: username,
@@ -15,38 +36,91 @@ function RegisterForm() {
     };
 
     axios
-      .post("http://localhost:3002/register", requestBody)
-      .then((response) => {
-        setResponse(response.data);
+      .post(`${api_base_url}register`, requestBody, {
+        withCredentials: true,
+      })
+      .then(() => {
+        setLoading(false);
+        setUsername(username)
+          // Navigiere zur Profilseite und übergebe die Bouquets
+          navigate(`/profile/${username}`, { state: { bouquets: []} });
+
       })
       .catch((error) => {
-        console.error("Error:", error);
+        setLoading(false);
+        setError(
+          error.response
+            ? error.response.data
+            : "An unknown error, while submitting the button, occurred"
+        );
       });
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {response && <div>Response: {JSON.stringify(response)}</div>}
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Card sx={{ width: 400, padding: 3 }}>
+        <CardContent>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Login
+          </Typography>
+          <form onSubmit={register}>
+            <Box mb={2}>
+              <TextField
+                label="Nutzername"
+                type="text"
+                value={username}
+                onChange={(e) => setUser(e.target.value)}
+                fullWidth
+                required
+              />
+            </Box>
+            <Box mb={2}>
+              <TextField
+                label="Passwort"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                required
+              />
+            </Box>
+            <Box mb={2}>
+              <TextField
+                label="Passwort wiederholen"
+                type="password"
+                value={passwordValidation}
+                onChange={(e) => setPasswordValidation(e.target.value)}
+                fullWidth
+                required
+              />
+            </Box>
+            <Box mb={2}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                disabled={loading || password !== passwordValidation}
+              >
+                {loading ? <CircularProgress size={24} /> : "Registrieren"}
+              </Button>
+            </Box>
+          </form>
+          {error && (
+            <Typography variant="body1" color="error">
+              {error}
+            </Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 

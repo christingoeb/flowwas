@@ -1,16 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Box, Typography } from "@mui/material";
 import FlowerCard from "./FlowerCard";
 import { BouquetContext } from "../contexts/CreateBouquetContext";
 
 
 function FlowerList({ flowerData }) {
-  const [filteredFlowers, setFilteredFlowers] = useState(flowerData);
   const { flowers } = useContext(BouquetContext)
-
-  useEffect(() => {
-    setFilteredFlowers(flowerData);
-  }, [flowerData]);
 
   const renderFlowers = (flowerData) => {
     if (!flowers.find(flower => flower.id === flowerData.id)) {
@@ -24,8 +19,8 @@ function FlowerList({ flowerData }) {
   return (
     <Typography variant="h4" component="h1" gutterBottom>
       <Box display="flex" flexDirection="column" alignItems="center">
-        {filteredFlowers.map((flowerData) => (
-          renderFlowers(flowerData)
+        {flowerData.map((flower) => (
+          renderFlowers(flower)
         ))}
       </Box>
     </Typography>

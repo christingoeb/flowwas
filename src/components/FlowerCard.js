@@ -30,7 +30,7 @@ function FlowerCard({ flower }) {
       <Card sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
         <CardMedia
           component="img"
-          sx={{ width: "200px", height: "200px" }}
+          sx={{ width: "200px", height: "300px" }}
           image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
           alt={flower.name}
         />

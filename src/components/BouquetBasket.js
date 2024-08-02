@@ -21,9 +21,12 @@ import { BouquetContext } from "../contexts/CreateBouquetContext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { api_base_url } from '../settings.json';
 import axios from "axios";
+import { AuthContext } from "../contexts/AuthContext";
+import LoginForm from "./LoginForm";
 
 function BouquetBasket() {
-    const { flowers, removeItem, clearList } = useContext(BouquetContext)
+    const { flowers, removeItem, clearList } = useContext(BouquetContext);
+    const { username } = useContext(AuthContext);
     const [open, setOpen] = useState(flowers.length);
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -42,9 +45,9 @@ function BouquetBasket() {
     function createBouquet(name) {
         const requestBody = {
             name,
-            flowerIds: flowers.map( flower => flower.id)
+            flowerIds: flowers.map(flower => flower.id)
         }
-        
+
         axios.post(`${api_base_url}bouquets`, requestBody, {
             withCredentials: true,
         }).then(response => {
@@ -67,48 +70,50 @@ function BouquetBasket() {
                 [`& .MuiDrawer-paper`]: { width: 550, boxSizing: 'border-box' },
             }}
         >
+            {username ?
+                <Box sx={{ overflow: 'auto' }} onClick={toggleDrawer(false)}>
+                    <Stack
+                        direction="column"
+                        justifyContent="space-between"
+                        sx={{ height: "100vH" }}
+                        spacing={1}
+                    >
+                        <div>
+                            <Typography variant="h5" component="h1" gutterBottom sx={{ pl: "1.5rem", mt: "2.25rem", mb: "2.25rem" }}>
+                                <strong>Dein neuer Blumenstrauß</strong>
+                            </Typography>
+                            <Divider sx={{ mx: "1rem" }} />
+                            <List>
+                                {flowers.map((flower, index) => (
+                                    <ListItem key={index} disablePadding onClick={toggleDrawer(false)} >
+                                        <ListItemButton>
+                                            <img
+                                                style={{ width: '50px', height: '50px', borderRadius: "10px", marginRight: "1rem" }}
+                                                src={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
+                                                alt={flower.name} />
 
-            <Box sx={{ overflow: 'auto' }} onClick={toggleDrawer(false)}>
-                <Stack
-                    direction="column"
-                    justifyContent="space-between"
-                    sx={{ height: "100vH" }}
-                    spacing={1}
-                >
-                    <div>
-                        <Typography variant="h5" component="h1" gutterBottom sx={{ pl: "1.5rem", mt: "2.25rem", mb: "2.25rem" }}>
-                            <strong>Dein neuer Blumenstrauß</strong>
-                        </Typography>
-                        <Divider sx={{ mx: "1rem" }} />
-                        <List>
-                            {flowers.map((flower, index) => (
-                                <ListItem key={index} disablePadding onClick={toggleDrawer(false)} >
-                                    <ListItemButton>
-                                        <img
-                                            style={{ width: '50px', height: '50px', borderRadius: "10px", marginRight: "1rem" }}
-                                            src={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
-                                            alt={flower.name} />
+                                            <ListItemText primary={flower.name} />
+                                            <div style={{ background: flower.color, width: 15, height: 15, borderRadius: "50%", marginRight: "1rem", border: "1px black solid" }}></div>
 
-                                        <ListItemText primary={flower.name} />
-                                        <div style={{ background: flower.color, width: 15, height: 15, borderRadius: "50%", marginRight: "1rem", border: "1px black solid" }}></div>
-
-                                        <IconButton aria-label="delete" onClick={() => removeItem(flower.id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </div>
-                    <div style={{ marginBottom: "1rem" }}>
-                        <Divider sx={{ mx: "1rem", mb: "1rem" }} />
-                        <div style={{ paddingLeft: "1.5rem", paddingRight: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                            <Typography variant="body"><strong>{flowers.length} / 11 Blumen</strong></Typography>
-                            <Button onClick={handleClickOpen}>Speichern</Button>
+                                            <IconButton aria-label="delete" onClick={() => removeItem(flower.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                            </List>
                         </div>
-                    </div>
-                </Stack>
-            </Box>
+                        <div style={{ marginBottom: "1rem" }}>
+                            <Divider sx={{ mx: "1rem", mb: "1rem" }} />
+                            <div style={{ paddingLeft: "1.5rem", paddingRight: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <Typography variant="body"><strong>{flowers.length} / 11 Blumen</strong></Typography>
+                                <Button onClick={handleClickOpen}>Speichern</Button>
+                            </div>
+                        </div>
+                    </Stack>
+                </Box>
+                : <LoginForm />
+            }
         </Drawer>
         <Dialog
             open={openDialog}

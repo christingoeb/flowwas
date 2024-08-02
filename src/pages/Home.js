@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   CircularProgress,
@@ -13,18 +13,16 @@ import {
   Grid,
   Container,
 } from "@mui/material";
-import { BouquetContext } from "../contexts/CreateBouquetContext";
 import FlowerList from "../components/FlowerList";
 import BouquetBasket from "../components/BouquetBasket";
 import axios from "axios";
 import { api_base_url } from "../settings.json";
 
-function Home({ flowerData }) {
+function Home() {
   const [flower, setFlower] = useState([]);
   const [loading, setLoading] = useState([]);
   const [selectedColors, setColors] = useState([]);
   const [searchTerms, setSearchTerms] = useState("");
-  const { flowers } = useContext(BouquetContext);
   const names = [
     "pink",
     "red",

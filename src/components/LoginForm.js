@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import {
   Card,
   CardContent,
@@ -14,7 +13,7 @@ import {
 import { api_base_url } from "../settings.json";
 import { AuthContext } from "../contexts/AuthContext";
 
-function LoginForm() {
+function LoginForm({ destination }) {
   const { setUsername } = useContext(AuthContext);
 
   const [username, setUser] = useState("");
@@ -35,7 +34,7 @@ function LoginForm() {
     };
 
     axios
-      .post("http://localhost:3002/login", requestBody, {
+      .post(`${api_base_url}login`, requestBody, {
         withCredentials: true,
       })
       .then(() => {
@@ -46,7 +45,9 @@ function LoginForm() {
           setUsername(username);
 
           // Navigiere zur Profilseite und übergebe die Bouquets
-          navigate(`/profile/${username}`, { state: { bouquets } });
+          if(destination === "profile") 
+            navigate(`/profile/${username}`, { state: { bouquets } });
+          
         });
       })
       .catch((error) => {
@@ -131,7 +132,7 @@ function LoginForm() {
             </Typography>
           )}
           <Box mt={2}>
-            <Button variant="text" color="primary">
+            <Button variant="text" color="primary" onClick={() => navigate("/register")}>
               Noch keinen Account? Hier registrieren!
             </Button>
           </Box>

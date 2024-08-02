@@ -1,56 +1,59 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Box, Container, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import BouquetCard from "../components/BouquetCard";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { api_base_url } from "../settings.json";
 
 function Profile() {
-  const location = useLocation();
   const [bouquets, setBouquets] = useState([]);
   const { username } = useContext(AuthContext);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
-    const getBouquets = () => {
-      try {
-        if (location.state.bouquets === null) {
-          console.log("Bouquets are null");
-        } else {
-          console.log("Bouquets:", location.state.bouquets);
-          setBouquets(location.state.bouquets);
-        }
-      } catch (error) {
-        console.error(
-          "An error occurred while accessing location.state.bouquets:",
-          error
-        );
-      }
-    };
-    getBouquets(); // default gets all flowers with no set filter
-  }, [location.state]);
+    axios
+      .get(`${api_base_url}bouquets`, 
+        { withCredentials: true })
+      .then((response) => {
+        setBouquets(response.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
 
-  if (!username) {
-    return <div>Nicht angemeldet. Melde dich bitte an c:</div>;
-  }
-  //frage: wie kann ich die sofort anzeigen? ;-(
-  // bisher geht es nur, wenn man auf den button bouquets drückt
+  if (!username) navigate("/login")
 
   return (
-    <Container>
-      <Typography variant="h2" component="h1" gutterBottom>
-        Hier sind deine erstellten Blumensträuße, {username}!
-        {bouquets.length > 0 ? (
-          bouquets.map((bouquetData) => (
+    <Grid container spacing={2} sx={{ p: "2rem", height: "90vH", width: "100vW", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      {bouquets.length > 0 ? (
+        <Typography variant="h3" component="h1" gutterBottom>
+          Hier sind deine erstellten Blumensträuße, {username}!
+          {bouquets.map((bouquetData) => (
             <Box key={bouquetData.id} mb={2} width="100%">
               <BouquetCard bouquets={bouquetData} />
             </Box>
-          ))
-        ) : (
-          <Typography variant="body1">
-            Keine Blumensträuße gefunden. :c
+          ))}
+
+        </Typography>
+      ) : (
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <Typography variant="body1" gutterBottom sx={{ mr: "1rem" }}>
+            Du hast noch keine Blumensträuße erstellt :c
           </Typography>
-        )}
-      </Typography>
-    </Container>
+          <Button color="primary" onClick={() => navigate("/")}>
+            Erstelle jetzt deinen ersten Blumenstrauß!
+          </Button>
+        </Stack>
+      )}
+    </Grid>
   );
 }
 
