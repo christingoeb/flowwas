@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid, Stack, Typography } from "@mui/material";
 import BouquetCard from "../components/BouquetCard";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +11,9 @@ function Profile() {
   const { username } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     axios
-      .get(`${api_base_url}bouquets`, 
+      .get(`${api_base_url}bouquets`,
         { withCredentials: true })
       .then((response) => {
         setBouquets(response.data);
@@ -27,17 +26,23 @@ function Profile() {
   if (!username) navigate("/login")
 
   return (
-    <Grid container spacing={2} sx={{ p: "2rem", height: "90vH", width: "100vW", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <Grid container spacing={2} sx={{ p: "2rem", height: "90vH", width: "99vW", display: "flex", justifyContent: "center", alignItems: "center" }}>
       {bouquets.length > 0 ? (
-        <Typography variant="h3" component="h1" gutterBottom>
-          Hier sind deine erstellten Blumensträuße, {username}!
-          {bouquets.map((bouquetData) => (
-            <Box key={bouquetData.id} mb={2} width="100%">
-              <BouquetCard bouquets={bouquetData} />
-            </Box>
-          ))}
-
-        </Typography>
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <Typography variant="h3" component="h1" gutterBottom>
+            Hier sind deine erstellten Blumensträuße, {username}!
+          </Typography>
+          <Grid container spacing={1} sx={{ display: "flex", justifyContent: "center" }}>
+            {bouquets.map((bouquetData) => (
+              <BouquetCard bouquet={bouquetData} key={bouquetData.bouquetId} />
+            ))}
+          </Grid>
+        </Stack>
       ) : (
         <Stack
           direction="column"

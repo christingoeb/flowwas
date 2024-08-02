@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { BouquetContext } from "../contexts/CreateBouquetContext";
+import { BouquetContext } from "../contexts/BouquetContext";
 import {
   Card,
   CardContent,
@@ -11,13 +11,11 @@ import {
   IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { AuthContext } from "../contexts/AuthContext";
 
 function FlowerCard({ flower }) {
-  const showDetailed = () => {
-    //window.open("https://www.wikipedia.de", "_blank");
-  };
-
   const { addItem } = useContext(BouquetContext);
+  const { username } = useContext(AuthContext)
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -49,7 +47,6 @@ function FlowerCard({ flower }) {
         >
           <CardContent>
             <Box
-              onClick={showDetailed}
               sx={{
                 cursor: "pointer",
                 paddingBottom: 1,
@@ -112,19 +109,22 @@ function FlowerCard({ flower }) {
             )}
           </CardContent>
         </Box>
-        <Divider
-          orientation="vertical"
-          variant="middle"
-          flexItem
-          sx={{ marginRight: "1rem" }}
-        />
-        <IconButton
-          aria-label="add"
-          color="primary"
-          onClick={() => addItem(flower)}
-        >
-          <AddIcon />
-        </IconButton>
+        {username && <>
+          <Divider
+            orientation="vertical"
+            variant="middle"
+            flexItem
+            sx={{ marginRight: "1rem" }}
+          />
+
+          <IconButton
+            aria-label="add"
+            color="primary"
+            onClick={() => addItem(flower)}
+          >
+            <AddIcon />
+          </IconButton>
+        </>}
       </Card>
     </Typography>
   );

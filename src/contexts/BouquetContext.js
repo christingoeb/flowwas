@@ -4,7 +4,12 @@ export const BouquetContext = createContext();
 
 export const BouquetProvider = ({ children }) => {
   const [flowers, setFlowers] = useState([]);
-
+  const [ bouquetInfo, setBouquetInfo] = useState([]);
+  //  bouquetInfo
+  // {
+  //    name: "name",
+  //    id: "id"
+  // }
   const addItem = (item) => {
     if(flowers.length < 11) setFlowers((prevItems) => [...prevItems, item]);
   };
@@ -17,8 +22,9 @@ export const BouquetProvider = ({ children }) => {
     setFlowers([]);
   };
 
+
   return (
-    <BouquetContext.Provider value={{ flowers, addItem, removeItem, clearList }}>
+    <BouquetContext.Provider value={{ flowers, setFlowers, addItem, removeItem, clearList, bouquetInfo, setBouquetInfo }}>
       {children}
     </BouquetContext.Provider>
   );

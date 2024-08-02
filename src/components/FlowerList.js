@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
 import { Box, Typography } from "@mui/material";
 import FlowerCard from "./FlowerCard";
-import { BouquetContext } from "../contexts/CreateBouquetContext";
-
+import { BouquetContext } from "../contexts/BouquetContext";
 
 function FlowerList({ flowerData }) {
   const { flowers } = useContext(BouquetContext)
 
   const renderFlowers = (flowerData) => {
     if (!flowers.find(flower => flower.id === flowerData.id)) {
-      return (<Box key={flowerData.id} mb={2} width="100%">
+      return (
+      <Box key={flowerData.id} mb={2} width="100%">
         <FlowerCard flower={flowerData} />
       </Box>)
     };
-    return (<></>)
   }
 
   return (

@@ -46,7 +46,7 @@ function LoginForm({ destination }) {
 
           // Navigiere zur Profilseite und übergebe die Bouquets
           if(destination === "profile") 
-            navigate(`/profile/${username}`, { state: { bouquets } });
+            navigate("/profile", { state: { bouquets } });
           
         });
       })

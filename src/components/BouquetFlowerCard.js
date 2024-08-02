@@ -1,24 +1,19 @@
-import React from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardMedia,
   Typography,
+  Button,
   Box,
-  Divider,
-  IconButton,
+  Divider
 } from "@mui/material";
 
-function BouquetFlowerCard({ bouquetid, flower }) {
-  const showDetailed = () => {
-    //window.open("https://www.wikipedia.de", "_blank");
-  };
+function BouquetFlowerCard({ flower }) {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  // Remove Flower Funktionalität
-  const removeFlower = () => {
-    // Frage: ID soll aus der Liste des Bouquets gelöscht werden
-    console.log(flower.id);
+  const handleToggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
   };
 
   return (
@@ -26,7 +21,7 @@ function BouquetFlowerCard({ bouquetid, flower }) {
       <Card sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
         <CardMedia
           component="img"
-          sx={{ width: "250px", height: "250px" }}
+          sx={{ width: "200px", height: "300px" }}
           image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
           alt={flower.name}
         />
@@ -45,7 +40,6 @@ function BouquetFlowerCard({ bouquetid, flower }) {
         >
           <CardContent>
             <Box
-              onClick={showDetailed}
               sx={{
                 cursor: "pointer",
                 paddingBottom: 1,
@@ -54,42 +48,60 @@ function BouquetFlowerCard({ bouquetid, flower }) {
               <Typography gutterBottom variant="h5" component="div">
                 {flower.name}
               </Typography>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{ fontStyle: "italic" }}
+              >
+                {flower.latin_name}
+              </Typography>
             </Box>
-            {flower.associations.length > 0 ? (
-              flower.associations.map((flowerAssociations) => (
-                <Box
-                  key={flowerAssociations.id}
-                  sx={{
-                    m: "1rem",
-                    padding: "4px 8px",
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: "4px",
-                    fontSize: "0.875rem", // smaller font size
-                  }}
-                >
-                  <Typography variant="body2" component="div">
-                    {flowerAssociations}
-                  </Typography>
+            <Divider sx={{ mx: "1rem", mb: "1rem" }} />
+            <Box sx={{ mb: "1rem" }}>
+              {flower.associations.length > 0 ? (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  {flower.associations.map((association, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        padding: "4px 8px",
+                        backgroundColor: "#f0f0f0",
+                        borderRadius: "4px",
+                        fontSize: "0.875rem", // smaller font size
+                      }}
+                    >
+                      <Typography variant="body2" component="div">
+                        {association}
+                      </Typography>
+                    </Box>
+                  ))}
                 </Box>
-              ))
+              ) : (
+                <Typography gutterBottom variant="h4" component="div">
+                  keine Assoziation
+                </Typography>
+              )}
+            </Box>
+
+            {flower.description.length > 300 ? (
+              <>
+                <Typography variant="body2" color="text.secondary">
+                  {isDropdownVisible
+                    ? flower.description
+                    : flower.description.slice(0, 300) + "..."}
+                </Typography>
+                <Button onClick={handleToggleDropdown}>
+                  {isDropdownVisible ? "weniger anzeigen..." : "weiterlesen..."}
+                </Button>
+              </>
             ) : (
-              <Typography variant="body2" color="text.secondary"></Typography>
+              <Typography variant="body2" color="text.secondary">
+                {flower.description}
+              </Typography>
             )}
           </CardContent>
         </Box>
-        <Divider
-          orientation="vertical"
-          variant="middle"
-          flexItem
-          sx={{ marginRight: "1rem" }}
-        />
-        <IconButton
-          aria-label="delete"
-          color="primary"
-          onClick={() => removeFlower(bouquetid)}
-        >
-          <DeleteIcon />
-        </IconButton>
       </Card>
     </Typography>
   );

@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import {
   Card,
   CardContent,
@@ -43,8 +42,7 @@ function RegisterForm() {
         setLoading(false);
         setUsername(username)
           // Navigiere zur Profilseite und übergebe die Bouquets
-          navigate(`/profile/${username}`, { state: { bouquets: []} });
-
+          navigate("/profile", { state: { bouquets: []} });
       })
       .catch((error) => {
         setLoading(false);

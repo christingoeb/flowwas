@@ -41,7 +41,7 @@ function Header() {
             <Button
               color="inherit"
               component={Link}
-              to={`/profile/${localStorage.getItem("userId")}`}
+              to={"/profile"}
             >
               Profil
             </Button>

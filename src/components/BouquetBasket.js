@@ -17,22 +17,19 @@ import {
     TextField,
     DialogActions
 } from '@mui/material';
-import { BouquetContext } from "../contexts/CreateBouquetContext";
+import { BouquetContext } from "../contexts/BouquetContext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { api_base_url } from '../settings.json';
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import LoginForm from "./LoginForm";
+import { useNavigate } from "react-router-dom";
 
 function BouquetBasket() {
-    const { flowers, removeItem, clearList } = useContext(BouquetContext);
+    const { flowers, removeItem, clearList, bouquetInfo } = useContext(BouquetContext);
     const { username } = useContext(AuthContext);
-    const [open, setOpen] = useState(flowers.length);
     const [openDialog, setOpenDialog] = useState(false);
-
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
-    };
+    const navigate = useNavigate();
 
     const handleClickOpen = () => {
         setOpenDialog(true);
@@ -42,6 +39,22 @@ function BouquetBasket() {
         setOpenDialog(false);
     };
 
+    function updateBouquet() {
+        const requestBody = {
+            bouquetId: bouquetInfo.id,
+            flowerIds: flowers.map(flower => flower.id)
+        }
+
+        axios.put(`${api_base_url}bouquets`, requestBody, {
+            withCredentials: true,
+        }).then(_ => {
+            clearList();
+            navigate("/profile")
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
     function createBouquet(name) {
         const requestBody = {
             name,
@@ -50,7 +63,7 @@ function BouquetBasket() {
 
         axios.post(`${api_base_url}bouquets`, requestBody, {
             withCredentials: true,
-        }).then(response => {
+        }).then(_ => {
             clearList();
             handleClose();
         }).catch(e => {
@@ -63,7 +76,6 @@ function BouquetBasket() {
             variant="permanent"
             anchor="right"
             open={!!flowers.length}
-            onClose={toggleDrawer(false)}
             sx={{
                 width: 550,
                 flexShrink: 0,
@@ -71,7 +83,7 @@ function BouquetBasket() {
             }}
         >
             {username ?
-                <Box sx={{ overflow: 'auto' }} onClick={toggleDrawer(false)}>
+                <Box sx={{ overflow: 'auto' }}>
                     <Stack
                         direction="column"
                         justifyContent="space-between"
@@ -80,12 +92,12 @@ function BouquetBasket() {
                     >
                         <div>
                             <Typography variant="h5" component="h1" gutterBottom sx={{ pl: "1.5rem", mt: "2.25rem", mb: "2.25rem" }}>
-                                <strong>Dein neuer Blumenstrauß</strong>
+                                <strong>{bouquetInfo?.name ? bouquetInfo?.name : "Dein neuer Blumenstrauß"}</strong>
                             </Typography>
                             <Divider sx={{ mx: "1rem" }} />
                             <List>
                                 {flowers.map((flower, index) => (
-                                    <ListItem key={index} disablePadding onClick={toggleDrawer(false)} >
+                                    <ListItem key={index} disablePadding>
                                         <ListItemButton>
                                             <img
                                                 style={{ width: '50px', height: '50px', borderRadius: "10px", marginRight: "1rem" }}
@@ -107,7 +119,11 @@ function BouquetBasket() {
                             <Divider sx={{ mx: "1rem", mb: "1rem" }} />
                             <div style={{ paddingLeft: "1.5rem", paddingRight: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <Typography variant="body"><strong>{flowers.length} / 11 Blumen</strong></Typography>
-                                <Button onClick={handleClickOpen}>Speichern</Button>
+                                {
+                                bouquetInfo.name ?
+                                    <Button onClick={updateBouquet}>Aktualisieren</Button>
+                                    : <Button onClick={handleClickOpen}>Speichern</Button>
+                                }
                             </div>
                         </div>
                     </Stack>
