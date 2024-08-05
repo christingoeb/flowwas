@@ -15,7 +15,8 @@ import {
     DialogContent,
     DialogContentText,
     TextField,
-    DialogActions
+    DialogActions,
+    Skeleton
 } from '@mui/material';
 import { BouquetContext } from "../contexts/BouquetContext";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,7 +36,7 @@ function BouquetBasket() {
 
     const handleImageLoad = () => {
         setLoading(false);
-      };
+    };
 
     const handleClickOpen = () => {
         setOpenDialog(true);
@@ -43,6 +44,11 @@ function BouquetBasket() {
 
     const handleClose = () => {
         setOpenDialog(false);
+    };
+
+    const cancelEditing = () => {
+        clearList();
+        navigate("/profile")
     };
 
     function updateBouquet() {
@@ -105,6 +111,7 @@ function BouquetBasket() {
                                 {flowers.map((flower, index) => (
                                     <ListItem key={index} disablePadding>
                                         <ListItemButton>
+                                            { loading && <Skeleton variant="rounded" width={50} height={50} /> }
                                             <img
                                                 style={{ width: '50px', height: '50px', borderRadius: "10px", marginRight: "1rem", display: loading ? 'none' : 'block' }}
                                                 src={`${api_base_url}image/${flower.id}`}
@@ -112,7 +119,6 @@ function BouquetBasket() {
                                                 alt={flower.name} />
                                             <ListItemText primary={flower.name} />
                                             <div style={{ background: flower.color, width: 15, height: 15, borderRadius: "50%", marginRight: "1rem", border: "1px black solid" }}></div>
-
                                             <IconButton aria-label="delete" onClick={() => removeItem(flower.id)}>
                                                 <DeleteIcon />
                                             </IconButton>
@@ -125,11 +131,10 @@ function BouquetBasket() {
                             <Divider sx={{ mx: "1rem", mb: "1rem" }} />
                             <div style={{ paddingLeft: "1.5rem", paddingRight: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <Typography variant="body"><strong>{flowers.length} / 11 Blumen</strong></Typography>
-                                {
-                                bouquetInfo.name ?
-                                    <Button onClick={updateBouquet}>Aktualisieren</Button>
-                                    : <Button onClick={handleClickOpen}>Speichern</Button>
-                                }
+                                <div>
+                                    <Button onClick={cancelEditing} sx={{ mr: "1rem", display: bouquetInfo.name ? "inline-block" : "none" }}>Abbrechen</Button>
+                                    <Button onClick={handleClickOpen} sx={{ background: "#ffb6c1 !important" }} disabled={flowers.length === 0}>{bouquetInfo.name ? "Aktualisieren" : "Speichern"}</Button>
+                                </div>
                             </div>
                         </div>
                     </Stack>
@@ -147,8 +152,9 @@ function BouquetBasket() {
                     const formData = new FormData(event.currentTarget);
                     const formJson = Object.fromEntries(formData.entries());
                     const name = formJson.name;
-                    console.log(name);
-                    createBouquet(name)
+                    if (bouquetInfo.name) updateBouquet()
+                    else createBouquet(name);
+
                     handleClose();
                 },
             }}
@@ -160,6 +166,7 @@ function BouquetBasket() {
                 <TextField
                     autoFocus
                     required
+                    defaultValue={bouquetInfo?.name ? bouquetInfo?.name : ""}
                     margin="dense"
                     id="name"
                     name="name"
@@ -171,7 +178,7 @@ function BouquetBasket() {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Abbrechen</Button>
-                <Button type="submit">Erstellen</Button>
+                <Button type="submit">{bouquetInfo.name ? "Aktualisieren" : "Erstellen"}</Button>
             </DialogActions>
         </Dialog>
     </>

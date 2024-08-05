@@ -49,6 +49,7 @@ function BouquetCard({ bouquet }) {
         {bouquet.flowers.map(flower => {
           return (
             <CardMedia
+              key={flower.id}
               sx={{ height: 142 }}
               image={`${api_base_url}image/${flower.id}`}
               title={flower.name}
@@ -62,7 +63,7 @@ function BouquetCard({ bouquet }) {
         <Divider sx={{ marginBottom: "0.5rem" }} />
         <div>
           {getAssociations().slice(0, 5).map(term =>
-            <Chip label={term} variant="outlined" sx={{ marginRight: "0.25rem", marginTop: "0.25rem" }} />
+            <Chip label={term} key={term} variant="outlined" sx={{ marginRight: "0.25rem", marginTop: "0.25rem" }} />
           )}
           {getAssociations().length > 5 && <Chip label={`+ ${getAssociations().length - 5} weitere`} sx={{ marginTop: "0.25rem" }} />}
         </div>
