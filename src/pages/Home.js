@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Typography,
   CircularProgress,
@@ -22,8 +22,8 @@ function Home() {
   const [flower, setFlower] = useState([]);
   const [loading, setLoading] = useState([]);
   const [selectedColors, setColors] = useState([]);
-  const [searchTerms, setSearchTerms] = useState("");
-  const names = [
+  const inputRef = useRef();
+  const colors = [
     "pink",
     "red",
     "green",
@@ -40,16 +40,36 @@ function Home() {
 
   function getFilteredFlowers(color, searchTerm) {
     setLoading(true);
-    axios
-      .get(`${api_base_url}flowers`, {
-        params: {
-          color,
-          searchTerm,
-        },
-        paramsSerializer: {
-          indexes: null,
-        },
+    axios.get(`${api_base_url}flowers`, {
+      params: {
+        color,
+        searchTerm,
+      },
+      paramsSerializer: {
+        indexes: null,
+      },
+    })
+      .then((response) => {
+        setFlower(response.data);
+        setLoading(false);
       })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
+  }
+
+  function getFilteredFlowersOR(color, searchTerm) {
+    setLoading(true);
+    axios.get(`${api_base_url}flowers-or`, {
+      params: {
+        color,
+        searchTerm,
+      },
+      paramsSerializer: {
+        indexes: null,
+      },
+    })
       .then((response) => {
         setFlower(response.data);
         setLoading(false);
@@ -71,7 +91,7 @@ function Home() {
     },
   };
 
-  const handleChange = (event) => {
+  const handleColorChange = (event) => {
     const {
       target: { value },
     } = event;
@@ -96,22 +116,19 @@ function Home() {
         >
           Stell dir deinen ganz eigenen Blumenstrauß zusammen
         </Typography>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "1rem",
-          }}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: "1rem",
+        }}
         >
           <TextField
+            type="text"
             label="Stichworte"
             variant="outlined"
             placeholder="Nach Blumen suchen"
-            value={searchTerms}
-            onChange={(e) => {
-              setSearchTerms(e.target.value);
-            }}
+            inputRef={inputRef}
             sx={{ mr: 2, width: 450 }}
           />
           <FormControl sx={{ mr: 2, width: 200 }}>
@@ -122,7 +139,7 @@ function Home() {
               multiple
               autoWidth
               value={selectedColors}
-              onChange={handleChange}
+              onChange={handleColorChange}
               input={
                 <OutlinedInput id="select-multiple-chip" label="Farbfilter" />
               }
@@ -156,7 +173,7 @@ function Home() {
               )}
               MenuProps={MenuProps}
             >
-              {names.map((name) => (
+              {colors.map((name) => (
                 <MenuItem key={name} value={name}>
                   <div
                     style={{
@@ -177,14 +194,31 @@ function Home() {
             variant="contained"
             sx={{ background: "#ffb6c1 !important" }}
             onClick={() =>
-              getFilteredFlowers(selectedColors, searchTerms.split(" "))
+              getFilteredFlowers(selectedColors, inputRef.current.value.split(" "))
             }
           >
             Filter anwenden
           </Button>
         </div>
-        {!flower && !loading ? (
-          <p>Keine Blumen gefunden :c</p>
+        {(!flower || flower.length === 0) && !loading ? (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "1rem",
+          }}
+          >
+            <p>Keine Blumen gefunden :c</p>
+            <Button
+              variant="contained"
+              sx={{ background: "#ffb6c1 !important", ml: "1rem" }}
+              onClick={() =>
+                getFilteredFlowersOR(selectedColors, inputRef.current.value.split(" "))
+              }
+            >
+              Suche erweitern?
+            </Button>
+          </div>
         ) : (
           <>
             {loading && <CircularProgress />}

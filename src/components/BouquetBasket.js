@@ -29,7 +29,13 @@ function BouquetBasket() {
     const { flowers, removeItem, clearList, bouquetInfo } = useContext(BouquetContext);
     const { username } = useContext(AuthContext);
     const [openDialog, setOpenDialog] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     const navigate = useNavigate();
+
+    const handleImageLoad = () => {
+        setLoading(false);
+      };
 
     const handleClickOpen = () => {
         setOpenDialog(true);
@@ -100,10 +106,10 @@ function BouquetBasket() {
                                     <ListItem key={index} disablePadding>
                                         <ListItemButton>
                                             <img
-                                                style={{ width: '50px', height: '50px', borderRadius: "10px", marginRight: "1rem" }}
-                                                src={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
+                                                style={{ width: '50px', height: '50px', borderRadius: "10px", marginRight: "1rem", display: loading ? 'none' : 'block' }}
+                                                src={`${api_base_url}image/${flower.id}`}
+                                                onLoad={handleImageLoad}
                                                 alt={flower.name} />
-
                                             <ListItemText primary={flower.name} />
                                             <div style={{ background: flower.color, width: 15, height: 15, borderRadius: "50%", marginRight: "1rem", border: "1px black solid" }}></div>
 

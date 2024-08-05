@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
+import { api_base_url } from "../settings.json";
 
 function BouquetCard({ bouquet }) {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function BouquetCard({ bouquet }) {
           return (
             <CardMedia
               sx={{ height: 142 }}
-              image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
+              image={`${api_base_url}image/${flower.id}`}
               title={flower.name}
             />)
         })}

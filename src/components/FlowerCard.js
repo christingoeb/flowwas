@@ -9,28 +9,37 @@ import {
   Box,
   Divider,
   IconButton,
+  Skeleton
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { AuthContext } from "../contexts/AuthContext";
+import { api_base_url } from "../settings.json";
 
 function FlowerCard({ flower }) {
   const { addItem } = useContext(BouquetContext);
   const { username } = useContext(AuthContext)
-
+  const [loading, setLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleToggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
 
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
+
   return (
     <Typography variant="h4" component="h1" gutterBottom>
       <Card sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
+        { loading && <Skeleton variant="rounded" width={200} height={300} /> }
         <CardMedia
           component="img"
           sx={{ width: "200px", height: "300px" }}
-          image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
+          src={`${api_base_url}image/${flower.id}`}
+          style={{ display: loading ? 'none' : 'block' }}
           alt={flower.name}
+          onLoad={handleImageLoad}
         />
         <Divider
           orientation="vertical"
@@ -47,10 +56,7 @@ function FlowerCard({ flower }) {
         >
           <CardContent>
             <Box
-              sx={{
-                cursor: "pointer",
-                paddingBottom: 1,
-              }}
+              sx={{ paddingBottom: 1 }}
             >
               <Typography gutterBottom variant="h5" component="div">
                 {flower.name}

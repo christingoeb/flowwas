@@ -6,11 +6,18 @@ import {
   Typography,
   Button,
   Box,
-  Divider
+  Divider,
+  Skeleton
 } from "@mui/material";
+import { api_base_url } from "../settings.json";
 
 function BouquetFlowerCard({ flower }) {
+  const [loading, setLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
 
   const handleToggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -19,10 +26,13 @@ function BouquetFlowerCard({ flower }) {
   return (
     <Typography variant="h4" component="h1" gutterBottom>
       <Card sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
+        {loading && <Skeleton variant="rounded" width={200} height={300} />}
         <CardMedia
           component="img"
           sx={{ width: "200px", height: "300px" }}
-          image={`${process.env.PUBLIC_URL}/flower_images/` + flower.image}
+          image={`${api_base_url}image/${flower.id}`}
+          onLoad={handleImageLoad}
+          style={{ display: loading ? 'none' : 'block' }}
           alt={flower.name}
         />
         <Divider
@@ -40,10 +50,7 @@ function BouquetFlowerCard({ flower }) {
         >
           <CardContent>
             <Box
-              sx={{
-                cursor: "pointer",
-                paddingBottom: 1,
-              }}
+              sx={{ paddingBottom: 1 }}
             >
               <Typography gutterBottom variant="h5" component="div">
                 {flower.name}
