@@ -39,10 +39,8 @@ function RegisterForm() {
         withCredentials: true,
       })
       .then(() => {
-        setLoading(false);
-        setUsername(username)
-          // Navigiere zur Profilseite und übergebe die Bouquets
-          navigate("/profile", { state: { bouquets: []} });
+        setLoading(false)
+        navigate("/login");
       })
       .catch((error) => {
         setLoading(false);
