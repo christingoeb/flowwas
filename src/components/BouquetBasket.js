@@ -133,7 +133,10 @@ function BouquetBasket() {
                                 <Typography variant="body"><strong>{flowers.length} / 11 Blumen</strong></Typography>
                                 <div>
                                     <Button onClick={cancelEditing} sx={{ mr: "1rem", display: bouquetInfo.name ? "inline-block" : "none" }}>Abbrechen</Button>
-                                    <Button onClick={handleClickOpen} sx={{ background: "#ffb6c1 !important" }} disabled={flowers.length === 0}>{bouquetInfo.name ? "Aktualisieren" : "Speichern"}</Button>
+                                    { bouquetInfo.name ?
+                                        <Button onClick={updateBouquet} sx={{ background: "#ffb6c1 !important" }} disabled={flowers.length === 0}>Aktualisieren</Button>
+                                        : <Button onClick={handleClickOpen} sx={{ background: "#ffb6c1 !important" }} disabled={flowers.length === 0}>Speichern</Button>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -152,9 +155,7 @@ function BouquetBasket() {
                     const formData = new FormData(event.currentTarget);
                     const formJson = Object.fromEntries(formData.entries());
                     const name = formJson.name;
-                    if (bouquetInfo.name) updateBouquet()
-                    else createBouquet(name);
-
+                    createBouquet(name);
                     handleClose();
                 },
             }}
@@ -178,7 +179,7 @@ function BouquetBasket() {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Abbrechen</Button>
-                <Button type="submit">{bouquetInfo.name ? "Aktualisieren" : "Erstellen"}</Button>
+                <Button type="submit">Erstellen</Button>
             </DialogActions>
         </Dialog>
     </>
